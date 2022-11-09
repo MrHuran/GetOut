@@ -1,0 +1,10 @@
+Fonctionnalités :
+  Monstre qui nous chasse (voir monstre dans Images) et screamers aléatoire
+  Création d'énigmes pour avancer dans le jeu (codes, ...)
+  Ajouter une lampe torche (ou briquet) pour éclairer la vision du joueur
+
+Conditions de victoire :
+  S'échapper
+
+Conditions de défaite :
+  Se faire tuer par le monstre
