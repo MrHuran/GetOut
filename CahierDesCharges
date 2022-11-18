@@ -1,0 +1,19 @@
+MVP : 1er niveau Backroom, 2e niveau Poolroom en sautant dans un trou, 3e niveau final simple couloir avec porte de sortie, personnage, 
+      monstres screamers qui nous tuent pas (juste pour l'ambiance), porte de sortie, objets bizarres eparpillés qui bougent tous seuls
+
+Fonctionnalités code:
+  Mouvement
+  Mains
+  Monstre
+  Trigger pour les evenements
+  objets à ramasser
+
+Conditions de victoire :
+  S'échapper
+
+Conditions de défaite :
+  Aucune
+
+Inspirations :
+  Creepypasta Backrooms
+  The stanley parable
