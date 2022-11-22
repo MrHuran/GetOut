@@ -1,10 +1,19 @@
-Fonctionnalités :
-  Monstre qui nous chasse (voir monstre dans Images) et screamers aléatoire
-  Création d'énigmes pour avancer dans le jeu (codes, ...)
-  Ajouter une lampe torche (ou briquet) pour éclairer la vision du joueur
+MVP : 1er niveau Backroom, 2e niveau Poolroom en sautant dans un trou, 3e niveau final simple couloir avec porte de sortie, personnage, 
+      monstres screamers qui nous tuent pas (juste pour l'ambiance), porte de sortie, objets bizarres eparpillés qui bougent tous seuls
+
+Fonctionnalités code:
+  Mouvement
+  Mains
+  Monstre
+  Trigger pour les evenements
+  objets à ramasser
 
 Conditions de victoire :
   S'échapper
 
 Conditions de défaite :
-  Se faire tuer par le monstre
+  Aucune
+
+Inspirations :
+  Creepypasta Backrooms
+  The stanley parable
