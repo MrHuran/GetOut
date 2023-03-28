@@ -11,6 +11,12 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/SceneVR.unity
     guid: 2f42af24d8e03a6418a919206df93b46
+  - enabled: 1
+    path: Assets/Scenes/LoseScene.unity
+    guid: 439cb73bc3f5d76428f394ddece139dd
+  - enabled: 1
+    path: Assets/Scenes/EndScreen.unity
+    guid: 92183f035a08e4847b9cc5ebe917b747
   m_configObjects:
     Unity.XR.Oculus.Settings: {fileID: 11400000, guid: bdda7c51d173cf64091cda782bf99f5f, type: 2}
     com.unity.xr.management.loader_settings: {fileID: 11400000, guid: c5af9b70f2fb76c4b9dbea5f3a16c907, type: 2}
