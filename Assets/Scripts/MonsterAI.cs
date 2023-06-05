@@ -28,7 +28,7 @@ public class MonsterAI : MonoBehaviour
     private void Awake()
     {
         animator = GetComponent<Animator>();
-        player = GameObject.Find("Player").transform;
+        player = GameObject.Find("VR Rig").transform;
         monster = GetComponent<NavMeshAgent>();
     }
 
