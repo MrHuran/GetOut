@@ -30,10 +30,7 @@ public class KeyDetector : MonoBehaviour
                 {
                     var accessGranted = false;
                     bool onlyNumbers = int.TryParse(display.text, out int value);
-                    if (onlyNumbers == true && display.text.Length > 0)
-                    {
-                        accessGranted = keyPadControl.CheckIfCorrect(int.Parse(display.text));
-                    }
+                    if (onlyNumbers == true && display.text.Length > 0) accessGranted = keyPadControl.CheckIfCorrect(int.Parse(display.text));
                     if (accessGranted == true) display.text = "GOOD";
                     else display.text = "WRONG";
                 }

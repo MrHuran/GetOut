@@ -7,12 +7,17 @@ public class KeyPadControl : MonoBehaviour
     public int correctCombination;
     public bool accessGranted = false;
 
+    public static bool isDone = false;
+
     private SceneLoader sceneLoader;
 
-    private void Start()
+    public FadeScreen fade;
+
+    private void Awake()
     {
         gameObject.GetComponent<BoxCollider>().enabled = false;
         sceneLoader = GameObject.FindGameObjectWithTag("SceneLoader").GetComponent<SceneLoader>();
+        correctCombination = Random.Range(1000, 9999);
     }
 
     private void Update()
@@ -35,7 +40,8 @@ public class KeyPadControl : MonoBehaviour
     {
         if (other.tag == "Player")
         {
-            sceneLoader.LoadScene("EndScreen");
+            isDone = true;
+            sceneLoader.LoadScene("Menu", fade);
         }
     }
 }

@@ -7,87 +7,89 @@ public class MonsterAI : MonoBehaviour
 {
     public NavMeshAgent monster;
 
+    public Transform[] moveSpots;
+    public int randomSpot;
+
     public Transform player;
 
     public LayerMask whatIsGround, whatIsPlayer;
 
     Animator animator;
 
-    //Variables pour la patrouille
-    public Vector3 walkPoint;
-    bool walkPointSet;
-    public float walkPointRange;
+    private SceneLoader sceneLoader;
+
+    public Camera jumpscareCam;
+    public AudioSource playerSound;
+    public AudioSource monsterScream;
+    public AudioSource monsterFootsteps;
+    public AudioSource monsterChase;
 
     //Variables pour l'état du monstre
     public float sightRange;
     public bool playerInSightRange;
 
-    //Variable pour checker si le monstre se déplace ou non
-    Vector3 prevPos;
+    public FadeScreen fade;
 
     private void Awake()
     {
         animator = GetComponent<Animator>();
-        player = GameObject.Find("VR Rig").transform;
         monster = GetComponent<NavMeshAgent>();
+        sceneLoader = GameObject.FindGameObjectWithTag("SceneLoader").GetComponent<SceneLoader>();
+        jumpscareCam.enabled = false;
+        randomSpot = Random.Range(0, moveSpots.Length);
     }
 
     private void Update()
     {
         //Check si le joueur est dans la vision du monstre
         playerInSightRange = Physics.CheckSphere(transform.position, sightRange, whatIsPlayer);
-
-        if (!playerInSightRange) Patroling();
-        else Chasing();
+        if (!jumpscareCam.enabled)
+        {
+            if (!playerInSightRange) Patroling();
+            else Chasing();
+            monsterFootsteps.enabled = true;
+        }
+        else monsterFootsteps.enabled = false;
     }
 
     private void Patroling()
     {
-        // Si le monstre ne sait pas où aller, alors il cherche un endroit où aller
-        if (!walkPointSet)
-        {
-            animator.SetBool("isMoving", false);
-            animator.SetBool("isChasing", false);
-            SearchWalkPoint();
-        }
-        else
-        {
-            animator.SetBool("isMoving", true);
-            animator.SetBool("isChasing", false);
-            monster.SetDestination(walkPoint);
-            //Si le monstre est bloqué (ne bouge pas), alors il cherche un autre endroit où aller
-            if (transform.position == prevPos)
-            {
-                Debug.Log("Le monstre est bloqué");
-                animator.SetBool("isMoving", false);
-                animator.SetBool("isChasing", false);
-                SearchWalkPoint();
-            }
-        }
-
-        Vector3 distanceToWalkPoint = transform.position - walkPoint;
-
-        //WalkPoint atteint
-        if (distanceToWalkPoint.magnitude < 1f) walkPointSet = false;
-
-        prevPos = transform.position;
-    }
-
-    private void SearchWalkPoint()
-    {
-        float randomZ = Random.Range(-walkPointRange, walkPointRange);
-        float randomX = Random.Range(-walkPointRange, walkPointRange);
-
-        walkPoint = new Vector3(transform.position.x + randomX, transform.position.y, transform.position.y + randomZ);
-
-        if (Physics.Raycast(walkPoint, -transform.up, 2f, whatIsGround)) walkPointSet = true;
+        monsterFootsteps.pitch = 1f;
+        monsterChase.enabled = false;
+        animator.SetBool("isChasing", false);
+        animator.SetBool("isMoving", true);
+        monster.SetDestination(moveSpots[randomSpot].position);
+        if (Vector3.Distance(transform.position, moveSpots[randomSpot].position) < 0.2f) randomSpot = Random.Range(0, moveSpots.Length);
     }
 
     private void Chasing()
     {
+        monsterChase.enabled = true;
+        monsterFootsteps.pitch = 1.6f;
         animator.SetBool("isChasing", true);
         animator.SetBool("isMoving", true);
         monster.SetDestination(player.position);
-        walkPointSet = false;
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.tag == "Player")
+        {
+            animator.SetBool("isKilling", true);
+            
+            player.gameObject.SetActive(false);
+            jumpscareCam.enabled = true;
+            jumpscareCam.GetComponent<AudioListener>().enabled = true;
+            playerSound.gameObject.SetActive(false);
+            monsterScream.Play();
+
+            StartCoroutine(death());
+        }
+    }
+
+    private IEnumerator death()
+    {
+        yield return new WaitForSeconds(1.5f);
+        sceneLoader.LoadScene("Menu", fade);
     }
 }
